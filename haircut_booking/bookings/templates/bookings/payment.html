@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Make Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h2>Make Payment</h2>
+    <p><strong>Service:</strong> {{ service.name }}</p>
+    <p><strong>Price:</strong> ₹{{ amount }}</p>
+    <p><strong>Date:</strong> {{ appointment_date }}</p>
+    <p><strong>Time:</strong> {{ appointment_time }}</p>
+
+    <!-- Razorpay Button -->
+    <button id="rzp-button">Pay Now</button>
+
+    <!-- Hidden Payment Form -->
+    <form method="POST" id="payment-form" action="{% url 'payment_verification' %}">
+        {% csrf_token %}
+        <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+        <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+        <input type="hidden" name="razorpay_order_id" value="{{ razorpay_order_id }}">
+        <input type="hidden" name="appointment_date" value="{{ appointment_date }}">
+        <input type="hidden" name="appointment_time" value="{{ appointment_time }}">
+        <input type="hidden" name="service_id" value="{{ service.id }}">
+    </form>
+
+    <script>
+        // Razorpay configuration
+        var options = {
+            "key": "{{ razorpay_api_key }}",  // Razorpay API Key
+            "amount": "{{ amount|floatformat:2 }}",  // Amount in paise
+            "currency": "INR",
+            "name": "Haircut Booking System",
+            "description": "Payment for your haircut appointment",
+            "order_id": "{{ razorpay_order_id }}",  // Razorpay Order ID
+            "handler": function (response) {
+                // Populate the hidden form fields with Razorpay response data
+                document.getElementById('razorpay_payment_id').value = response.razorpay_payment_id;
+                document.getElementById('razorpay_signature').value = response.razorpay_signature;
+
+                // Submit the form to the server
+                document.getElementById('payment-form').submit();
+            },
+            "prefill": {
+                "name": "{{ request.user.username }}",
+                "email": "{{ request.user.email }}"
+            },
+            "theme": {
+                "color": "#F37254"
+            }
+        };
+
+        // Open Razorpay checkout on button click
+        var rzp = new Razorpay(options);
+        document.getElementById('rzp-button').onclick = function (e) {
+            rzp.open();
+            e.preventDefault();  // Prevent the default form submission
+        };
+    </script>
+</body>
+</html>

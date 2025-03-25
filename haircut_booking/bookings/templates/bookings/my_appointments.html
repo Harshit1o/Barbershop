@@ -1,0 +1,17 @@
+{% extends 'bookings/base.html' %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+<h2>My Appointments</h2>
+<ul>
+    {% for appointment in appointments %}
+    <li>
+        <strong>Service:</strong> {{ appointment.service.name }}<br>
+        <strong>Date:</strong> {{ appointment.appointment_date }}<br>
+        <strong>Status:</strong> {{ appointment.status|title }}
+    </li>
+    {% empty %}
+    <p>No appointments yet. <a href="{% url 'book_appointment' %}">Book one now!</a></p>
+    {% endfor %}
+</ul>
+
+{% endblock %}

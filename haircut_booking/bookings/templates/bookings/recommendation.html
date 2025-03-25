@@ -1,0 +1,11 @@
+{% extends 'bookings/base.html' %}
+{% block title %}Hairstyle Recommendation{% endblock %}
+{% block content %}
+<h2>Get Hairstyle Recommendations</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="face_image">Upload a clear photo of your face:</label>
+    <input type="file" name="face_image" accept="image/*" required>
+    <button type="submit">Get Recommendations</button>
+</form>
+{% endblock %}

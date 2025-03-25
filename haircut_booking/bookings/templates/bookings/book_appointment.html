@@ -1,0 +1,20 @@
+{% extends 'bookings/base.html' %}
+{% block title %}Book Appointment{% endblock %}
+{% block content %}
+<h2>Book Appointment</h2>
+<form method="POST">
+    {% csrf_token %}
+    <label for="service">Service:</label>
+    {{ form.service }}
+
+    <label for="appointment_date">Enter Date:</label>
+    <input type="text" name="appointment_date" placeholder="Enter date (e.g., 2024-12-05)" value="{{ form.appointment_date.value|default:'' }}" required>
+
+    <label for="appointment_time">Select Time:</label>
+    {{ form.appointment_time }}
+
+    
+
+    <button type="submit">Next</button>
+</form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'bookings/base.html' %}
+{% block title %}Recommendation Results{% endblock %}
+{% block content %}
+<h2>Hairstyle Recommendations</h2>
+<p><strong>Detected Face Shape:</strong> {{ face_shape }}</p>
+<p><strong>Recommended Hairstyles:</strong></p>
+<ul>
+    {% for style in recommendations %}
+    <li>{{ style }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'recommendation' %}">Back to Recommendation</a>
+{% endblock %}
