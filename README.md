@@ -34,7 +34,7 @@ A modern Django-based barbershop booking system with AI-powered face shape detec
 
 1. Clone the repository:
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Harshit1o/Barbershop.git
 cd Barbershop
 ```
 
